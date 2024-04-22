@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dictionary.dart';
-import 'screen_between_levels.dart'; 
+import 'screen_between_levels.dart';
 import 'congrats_screen.dart';
 
 class WordQuizScreen extends StatefulWidget {
@@ -15,7 +15,8 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
   int totalLevels = 20;
   int correctAnswersCount = 0;
   String? selectedOption;
-  String get currentRussianWord => wordDictionary.keys.toList()[currentWordIndex];
+  String get currentRussianWord =>
+      wordDictionary.keys.toList()[currentWordIndex];
   String get currentEstonianTranslation => wordDictionary[currentRussianWord]!;
   String get correctTranslation => wordDictionary[currentRussianWord]!;
 
@@ -27,7 +28,8 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
       appBar: AppBar(
         title: Text('Word Quiz'),
       ),
-      body: Column(
+      body: Center(
+          child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
@@ -37,31 +39,34 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
           SizedBox(height: 20),
           Column(
             children: options.map((option) {
-              return ElevatedButton(
-                onPressed: () {
-                  _checkAnswer(option);
-                },
-                child: Text(option),
-                style: ButtonStyle(
-                  backgroundColor: (option == selectedOption)
-                    ? (selectedOption == correctTranslation)
-                      ? MaterialStateProperty.all<Color>(Colors.green)
-                      : MaterialStateProperty.all<Color>(Colors.red)
-                    : null,
+              return Column(children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _checkAnswer(option);
+                  },
+                  child: Text(option),
+                  style: ButtonStyle(
+                    backgroundColor: (option == selectedOption)
+                        ? (selectedOption == correctTranslation)
+                            ? MaterialStateProperty.all<Color>(Colors.green)
+                            : MaterialStateProperty.all<Color>(Colors.red)
+                        : null,
+                  ),
                 ),
-              );
+                SizedBox(height: 10)
+              ]);
             }).toList(),
-          ), 
+          ),
         ],
-      ),
+      )),
     );
   }
 
   List<String> _generateOptions(String correctTranslation) {
     List<String> options = [correctTranslation];
     while (options.length < 3) {
-      String randomTranslation =
-          wordDictionary.values.elementAt(Random().nextInt(wordDictionary.length));
+      String randomTranslation = wordDictionary.values
+          .elementAt(Random().nextInt(wordDictionary.length));
       if (!options.contains(randomTranslation)) {
         options.add(randomTranslation);
       }
@@ -71,48 +76,47 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
   }
 
   void _checkAnswer(String option) {
-  setState(() {
-    selectedOption = option;
-    Future.delayed(Duration(seconds: 1), () {
-      setState(() {
-        if (option != correctTranslation) {
-          currentWordIndex++;
-        }
-        if (option == correctTranslation){
-          currentWordIndex++; 
-          correctAnswersCount++;
-        }
-        selectedOption = null;
-        if (currentWordIndex == 5) {
-          _showBetweenLevelsScreen();
-          
-        }
-        if (currentWordIndex >= 20) {
-          _showCongratsScreen();
-        }
-
+    setState(() {
+      selectedOption = option;
+      Future.delayed(Duration(seconds: 1), () {
+        setState(() {
+          if (option != correctTranslation) {
+            currentWordIndex++;
+          }
+          if (option == correctTranslation) {
+            currentWordIndex++;
+            correctAnswersCount++;
+          }
+          selectedOption = null;
+          if (currentWordIndex == 5) {
+            _showBetweenLevelsScreen();
+          }
+          if (currentWordIndex >= 20) {
+            _showCongratsScreen();
+          }
+        });
       });
     });
-  });
-}
+  }
+
   void _showBetweenLevelsScreen() {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => ScreenBetweenLevels(
-        currentLevel: currentLevel++,
-        totalLevels: totalLevels,
-        correctAnswers: correctAnswersCount, 
-        totalQuestions: currentWordIndex, 
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ScreenBetweenLevels(
+          currentLevel: currentLevel++,
+          totalLevels: totalLevels,
+          correctAnswers: correctAnswersCount,
+          totalQuestions: currentWordIndex,
+        ),
       ),
-    ),
-  ).then((value) {
-    setState(() {
-      currentWordIndex = 0;
-      correctAnswersCount = 0;
+    ).then((value) {
+      setState(() {
+        currentWordIndex = 0;
+        correctAnswersCount = 0;
+      });
     });
-  });
-}
+  }
 
   void _showCongratsScreen() {
     Navigator.pushReplacement(
