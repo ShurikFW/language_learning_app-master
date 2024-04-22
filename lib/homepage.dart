@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:language_learning_app/flashcard.dart';
 import 'package:language_learning_app/shared_preferences.dart';
+import 'package:language_learning_app/level_screen.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage> {
 
   void _navigateToLevel() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const FlashcardScreen(category: "Basics"),
+      builder: (context) => WordQuizScreen(),
     ));
   }
 
