@@ -19,10 +19,13 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
       wordDictionary.keys.toList()[currentWordIndex];
   String get currentEstonianTranslation => wordDictionary[currentRussianWord]!;
   String get correctTranslation => wordDictionary[currentRussianWord]!;
-
+  List<String> options = [];
+  bool newOptionsRequired = true;
   @override
   Widget build(BuildContext context) {
-    List<String> options = _generateOptions(currentEstonianTranslation);
+    if (newOptionsRequired) {
+      options = _generateOptions(currentEstonianTranslation);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -78,8 +81,10 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
   void _checkAnswer(String option) {
     setState(() {
       selectedOption = option;
+      newOptionsRequired = false;
       Future.delayed(Duration(seconds: 1), () {
         setState(() {
+          newOptionsRequired = true;
           if (option != correctTranslation) {
             currentWordIndex++;
           }
