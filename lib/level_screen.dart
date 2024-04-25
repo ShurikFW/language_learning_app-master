@@ -16,12 +16,16 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
 
   int correctAnswersCount = 0;
   String? selectedOption;
+
   String get currentRussianWord =>
       wordDictionary.keys.toList()[currentWordIndex];
+
   String get currentEstonianTranslation => wordDictionary[currentRussianWord]!;
+
   String get correctTranslation => wordDictionary[currentRussianWord]!;
   List<String> options = [];
   bool newOptionsRequired = true;
+
   @override
   Widget build(BuildContext context) {
     if (newOptionsRequired) {
@@ -56,7 +60,9 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
                             : MaterialStateProperty.all<Color>(Colors.red)
                         : null,
                     textStyle: MaterialStateProperty.all<TextStyle>(
-                      TextStyle(fontSize: 30), // Измените 20 на нужный вам размер шрифта
+                      TextStyle(
+                          fontSize:
+                              30), // Измените 20 на нужный вам размер шрифта
                     ),
                   ),
                 ),
@@ -94,13 +100,14 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
           }
           selectedOption = null;
           currentWordIndex++;
-          if (currentWordIndex % 5 == 0) { // Проверяем, прошли ли 5 слов
-          _showBetweenLevelsScreen(); // Если да, показываем экран прохождения уровня
-        }
-          if (currentWordIndex >= wordDictionary.length) { // Проверяем, достигли ли конца словаря
-          _showCongratsScreen(); // Если да, показываем экран поздравления
-        }
-          
+          if (currentWordIndex % 5 == 0) {
+            // Проверяем, прошли ли 5 слов
+            _showBetweenLevelsScreen(); // Если да, показываем экран прохождения уровня
+          }
+          if (currentWordIndex >= wordDictionary.length) {
+            // Проверяем, достигли ли конца словаря
+            _showCongratsScreen(); // Если да, показываем экран поздравления
+          }
         });
       });
     });
@@ -108,7 +115,7 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
 
   void _showBetweenLevelsScreen() {
     if (currentWordIndex >= wordDictionary.length) {
-    currentWordIndex = 0;
+      currentWordIndex = 0;
     }
     Navigator.push(
       context,
@@ -126,18 +133,17 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
       });
     });
   }
+
   List<String> getNextRussianWords() {
-      List<String> russianWords = wordDictionary.keys.toList();
-      int endIndex = currentWordIndex;
-      if (endIndex > russianWords.length) {
-        endIndex = russianWords.length;
-      }
-      List<String> nextWords = russianWords.sublist(currentWordIndex, endIndex);
-      currentWordIndex = endIndex; 
-      return nextWords;
+    List<String> russianWords = wordDictionary.keys.toList();
+    int endIndex = currentWordIndex;
+    if (endIndex > russianWords.length) {
+      endIndex = russianWords.length;
+    }
+    List<String> nextWords = russianWords.sublist(currentWordIndex, endIndex);
+    currentWordIndex = endIndex;
+    return nextWords;
   }
-
-
 
   void _showCongratsScreen() {
     Navigator.pushReplacement(
@@ -148,4 +154,3 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
     );
   }
 }
-    
