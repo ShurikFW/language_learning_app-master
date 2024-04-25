@@ -85,26 +85,27 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
       Future.delayed(Duration(seconds: 1), () {
         setState(() {
           newOptionsRequired = true;
-          if (option != correctTranslation) {
-            currentWordIndex++;
-          }
           if (option == correctTranslation) {
-            currentWordIndex++;
             correctAnswersCount++;
           }
           selectedOption = null;
-          if (currentWordIndex == 5) {
-            _showBetweenLevelsScreen();
-          }
-          if (currentWordIndex >= 20) {
-            _showCongratsScreen();
-          }
+          currentWordIndex++;
+          if (currentWordIndex % 5 == 0) { // Проверяем, прошли ли 5 слов
+          _showBetweenLevelsScreen(); // Если да, показываем экран прохождения уровня
+        }
+          if (currentWordIndex >= wordDictionary.length) { // Проверяем, достигли ли конца словаря
+          _showCongratsScreen(); // Если да, показываем экран поздравления
+        }
+          
         });
       });
     });
   }
 
   void _showBetweenLevelsScreen() {
+    if (currentWordIndex >= wordDictionary.length) {
+    currentWordIndex = 0;
+    }
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -112,16 +113,27 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
           currentLevel: currentLevel++,
           totalLevels: totalLevels,
           correctAnswers: correctAnswersCount,
-          totalQuestions: currentWordIndex,
+          totalQuestions: 5,
         ),
       ),
     ).then((value) {
       setState(() {
-        currentWordIndex = 0;
         correctAnswersCount = 0;
       });
     });
   }
+  List<String> getNextRussianWords() {
+      List<String> russianWords = wordDictionary.keys.toList();
+      int endIndex = currentWordIndex;
+      if (endIndex > russianWords.length) {
+        endIndex = russianWords.length;
+      }
+      List<String> nextWords = russianWords.sublist(currentWordIndex, endIndex);
+      currentWordIndex = endIndex; 
+      return nextWords;
+  }
+
+
 
   void _showCongratsScreen() {
     Navigator.pushReplacement(
@@ -132,3 +144,4 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
     );
   }
 }
+    

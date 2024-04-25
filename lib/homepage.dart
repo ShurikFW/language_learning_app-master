@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:language_learning_app/shared_preferences.dart';
 import 'package:language_learning_app/level_screen.dart';
 
+
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -22,12 +23,14 @@ class _MainPageState extends State<MainPage> {
       _userLevel = level ?? 1;
     });
   }
+  
 
   Future<void> _incrementLevel() async {
-    int newLevel = (_userLevel ?? 0) + 1;
-    await saveLevel(newLevel);
-    await _loadUserLevel();
-  }
+  int newLevel = (_userLevel ?? 0) + 1;
+  await saveLevel(newLevel);
+  await _loadUserLevel();
+}
+
 
   Future<void> _clearLevel() async {
     await clearLevel();
