@@ -89,4 +89,14 @@ Map<String, String> wordDictionary = {
   'Сметана': 'Hapukoor',
   'Творог': 'Kohupiim',
   'Яйцо': 'Muna',
+  'Чайник': 'Kann',
+  'Пиявка': 'Kaan',
+  'Крышка ': 'Kaas',
+  'Рыбак': 'Kalur',
+  'Стыд ': 'Häbi',
+  'Борода': 'Habe',
+  'Шум': 'Kära',
+  'Шар': 'Kera',
+  'Семья': 'Pere',
+  'Пушка': 'Kahur'
 };

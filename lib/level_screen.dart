@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:language_learning_app/shared_preferences.dart';
 import 'dart:math';
 import 'dictionary.dart';
 import 'screen_between_levels.dart';
@@ -11,11 +12,30 @@ class WordQuizScreen extends StatefulWidget {
 
 class _WordQuizScreenState extends State<WordQuizScreen> {
   int currentWordIndex = 0;
-  int currentLevel = 1;
   int totalLevels = 20;
 
   int correctAnswersCount = 0;
   String? selectedOption;
+
+  int? _userLevel;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserLevel();
+  }
+
+  Future<void> _loadUserLevel() async {
+
+    int? level = await getLevel();
+
+    setState(() {
+      _userLevel = level;
+      debugPrint('On level screen setting level $level');
+      currentWordIndex = (_userLevel! - 1) * 5;
+      debugPrint('On level screen setting word index $currentWordIndex');
+    });
+  }
 
   String get currentRussianWord =>
       wordDictionary.keys.toList()[currentWordIndex];
@@ -34,12 +54,17 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Word Quiz'),
+        title: Text('Уровень $_userLevel'),
       ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Text(
+            'Уровень $_userLevel',
+            style: TextStyle(fontSize: 42),
+          ),
+          SizedBox(height: 32),
           Text(
             currentRussianWord,
             style: TextStyle(fontSize: 34),
@@ -92,7 +117,7 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
     setState(() {
       selectedOption = option;
       newOptionsRequired = false;
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
           newOptionsRequired = true;
           if (option == correctTranslation) {
@@ -104,7 +129,7 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
             // Проверяем, прошли ли 5 слов
             _showBetweenLevelsScreen(); // Если да, показываем экран прохождения уровня
           }
-          if (currentWordIndex >= wordDictionary.length) {
+          if (currentWordIndex >= wordDictionary.length - 1) {
             // Проверяем, достигли ли конца словаря
             _showCongratsScreen(); // Если да, показываем экран поздравления
           }
@@ -121,7 +146,7 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => ScreenBetweenLevels(
-          currentLevel: currentLevel++,
+          currentLevel: _userLevel!,
           totalLevels: totalLevels,
           correctAnswers: correctAnswersCount,
           totalQuestions: 5,

@@ -66,7 +66,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Estonian Learning App ',
+          'Обучение Эстонскому языку',
           style: TextStyle(
             fontFamily: 'Roboto',
             fontWeight: FontWeight.bold,
@@ -87,7 +87,7 @@ class _MainPageState extends State<MainPage> {
                 const SizedBox(width: 20),
                 Column(
                   children: [
-                    const Text('Уровень:'),
+                    const Text('Уровень', style: TextStyle(fontSize: 24)),
                     _userLevel != null
                         ? Text(
                             ' $_userLevel / 20',
@@ -111,7 +111,7 @@ class _MainPageState extends State<MainPage> {
               onPress: _navigateToLevel,
               height: 70,
               width: 200,
-              text: 'START GAME',
+              text: 'Начать',
               isReverse: true,
               selectedTextColor: Colors.black,
               transitionType: TransitionType.LEFT_TO_RIGHT,
@@ -126,7 +126,7 @@ class _MainPageState extends State<MainPage> {
               onPress: () => exit(0),
               height: 70,
               width: 200,
-              text: 'EXIT GAME',
+              text: 'Выйти',
               isReverse: true,
               selectedTextColor: Colors.black,
               transitionType: TransitionType.LEFT_TO_RIGHT,

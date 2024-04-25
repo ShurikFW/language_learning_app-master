@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:language_learning_app/shared_preferences.dart';
+
+import 'homepage.dart';
+import 'level_screen.dart';
 
 
 class ScreenBetweenLevels extends StatelessWidget {
@@ -52,8 +56,11 @@ class ScreenBetweenLevels extends StatelessWidget {
               ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
+              onPressed: () async {
+                await incrementLevel();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => WordQuizScreen(),
+                ));
               },
               child: Text(
                 'Продолжить',
@@ -77,7 +84,9 @@ class ScreenBetweenLevels extends StatelessWidget {
             if (correctAnswers < 3)
               ElevatedButton(
                 onPressed: () {
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                  Navigator.of(context).push((MaterialPageRoute(
+                    builder: (context) => MainPage(),
+                  )));
                 },
                 child: Text(
                   'Начать сначала',
