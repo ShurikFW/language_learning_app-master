@@ -12,8 +12,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int? _userLevel;
-  
-
 
   @override
   void initState() {
@@ -27,7 +25,7 @@ class _MainPageState extends State<MainPage> {
       _userLevel = level ?? 1;
     });
   }
-  
+
 
   Future<void> _incrementLevel() async {
    if (_userLevel != null && _userLevel! < 20) {
@@ -35,10 +33,7 @@ class _MainPageState extends State<MainPage> {
     await saveLevel(newLevel);
     await _loadUserLevel();
   }
-
 }
-
-
   Future<void> _clearLevel() async {
     await clearLevel();
     await _loadUserLevel();
@@ -87,7 +82,7 @@ class _MainPageState extends State<MainPage> {
               onPress: _navigateToLevel,
               height: 70,
               width: 200,
-              text: 'SUBMIT',
+              text: 'START GAME',
               isReverse: true,
               selectedTextColor: Colors.black,
               transitionType: TransitionType.LEFT_TO_RIGHT,
@@ -116,6 +111,7 @@ class _MainPageState extends State<MainPage> {
               height: 70,
               width: 200,
               text: 'Clear Level',
+
               selectedTextColor: Colors.black,
               textStyle: submitTextStyle,
               backgroundColor: Colors.white,

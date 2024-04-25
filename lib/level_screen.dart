@@ -13,6 +13,7 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
   int currentWordIndex = 0;
   int currentLevel = 1;
   int totalLevels = 20;
+
   int correctAnswersCount = 0;
   String? selectedOption;
   String get currentRussianWord =>
@@ -37,9 +38,9 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
         children: [
           Text(
             currentRussianWord,
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: 34),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 35),
           Column(
             children: options.map((option) {
               return Column(children: [
@@ -47,16 +48,19 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
                   onPressed: () {
                     _checkAnswer(option);
                   },
-                  child: Text(option),
+                  child: Text(option, style: TextStyle(fontSize: 25)),
                   style: ButtonStyle(
                     backgroundColor: (option == selectedOption)
                         ? (selectedOption == correctTranslation)
                             ? MaterialStateProperty.all<Color>(Colors.green)
                             : MaterialStateProperty.all<Color>(Colors.red)
                         : null,
+                    textStyle: MaterialStateProperty.all<TextStyle>(
+                      TextStyle(fontSize: 30), // Измените 20 на нужный вам размер шрифта
+                    ),
                   ),
                 ),
-                SizedBox(height: 25)
+                SizedBox(height: 30)
               ]);
             }).toList(),
           ),

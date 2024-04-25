@@ -58,7 +58,7 @@ class ScreenBetweenLevels extends StatelessWidget {
               child: Text(
                 'Продолжить',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 25,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
