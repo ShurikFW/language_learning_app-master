@@ -37,7 +37,7 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
         children: [
           Text(
             currentRussianWord,
-            style: TextStyle(fontSize: 24),
+            style: TextStyle(fontSize: 30),
           ),
           SizedBox(height: 20),
           Column(
@@ -56,7 +56,7 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
                         : null,
                   ),
                 ),
-                SizedBox(height: 10)
+                SizedBox(height: 25)
               ]);
             }).toList(),
           ),

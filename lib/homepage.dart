@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:language_learning_app/shared_preferences.dart';
 import 'package:language_learning_app/level_screen.dart';
+import 'package:flutter_animated_button/flutter_animated_button.dart';
+
 
 
 class MainPage extends StatefulWidget {
@@ -10,6 +12,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int? _userLevel;
+  
+
 
   @override
   void initState() {
@@ -29,6 +33,7 @@ class _MainPageState extends State<MainPage> {
   int newLevel = (_userLevel ?? 0) + 1;
   await saveLevel(newLevel);
   await _loadUserLevel();
+
 }
 
 
@@ -38,13 +43,20 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _navigateToLevel() {
+  Future.delayed(Duration(milliseconds: 500), () {
+    // Переход к экрану игры
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => WordQuizScreen(),
     ));
-  }
+  });
+}
 
    @override
   Widget build(BuildContext context) {
+    final TextStyle submitTextStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -63,61 +75,51 @@ class _MainPageState extends State<MainPage> {
                 ? Text(
                     'User Level: $_userLevel / 20',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 25,
                       color: Colors.black,
                     ),
                   )
                 : CircularProgressIndicator(),
             SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: _navigateToLevel,
-              child: Text(
-                'Start game',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 40, vertical: 20)),
-                shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-              ),
+            AnimatedButton(
+              onPress: _navigateToLevel,
+              height: 70,
+              width: 200,
+              text: 'SUBMIT',
+              isReverse: true,
+              selectedTextColor: Colors.black,
+              transitionType: TransitionType.LEFT_TO_RIGHT,
+              textStyle: submitTextStyle,
+              backgroundColor: Colors.black,
+              borderColor: Colors.black,
+              borderRadius: 50,
+              borderWidth: 2,
             ),
             SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: _incrementLevel,
-              child: Text(
-                'Increment Level',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 40, vertical: 20)),
-                shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-              ),
+            AnimatedButton(
+              onPress: _incrementLevel,
+              height: 70,
+              width: 200,
+              text: 'Increment level',
+              selectedTextColor: Colors.black,
+              textStyle: submitTextStyle,
+              backgroundColor: Colors.white,
+              borderColor: Colors.black,
+              borderRadius: 50,
+              borderWidth: 2,
             ),
             SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: _clearLevel,
-              child: Text(
-                'Clear Level',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.symmetric(horizontal: 40, vertical: 20)),
-                shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-              ),
+            AnimatedButton(
+              onPress: _clearLevel,
+              height: 70,
+              width: 200,
+              text: 'Clear Level',
+              selectedTextColor: Colors.black,
+              textStyle: submitTextStyle,
+              backgroundColor: Colors.white,
+              borderColor: Colors.black,
+              borderRadius: 50,
+              borderWidth: 2,
             ),
           ],
         ),
