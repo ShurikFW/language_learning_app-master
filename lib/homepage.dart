@@ -1,9 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:language_learning_app/shared_preferences.dart';
 import 'package:language_learning_app/level_screen.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
-
-
 
 class MainPage extends StatefulWidget {
   @override
@@ -26,34 +26,43 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-
   Future<void> _incrementLevel() async {
-   if (_userLevel != null && _userLevel! < 20) {
-    int newLevel = (_userLevel ?? 0) + 1;
-    await saveLevel(newLevel);
-    await _loadUserLevel();
+    if (_userLevel != null && _userLevel! < 20) {
+      int newLevel = (_userLevel ?? 0) + 1;
+      await saveLevel(newLevel);
+      await _loadUserLevel();
+    }
   }
-}
+
+  Future<void> _decrementLevel() async {
+    if (_userLevel != null && _userLevel! > 1) {
+      int newLevel = (_userLevel ?? 0) - 1;
+      await saveLevel(newLevel);
+      await _loadUserLevel();
+    }
+  }
+
   Future<void> _clearLevel() async {
     await clearLevel();
     await _loadUserLevel();
   }
 
   void _navigateToLevel() {
-  Future.delayed(Duration(milliseconds: 500), () {
-    // Переход к экрану игры
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => WordQuizScreen(),
-    ));
-  });
-}
+    Future.delayed(Duration(milliseconds: 500), () {
+      // Переход к экрану игры
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => WordQuizScreen(),
+      ));
+    });
+  }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final TextStyle submitTextStyle = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    color: Colors.white,);
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -68,15 +77,35 @@ class _MainPageState extends State<MainPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _userLevel != null
-                ? Text(
-                    'User Level: $_userLevel / 20',
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.black,
-                    ),
-                  )
-                : CircularProgressIndicator(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FilledButton(
+                  onPressed: _decrementLevel,
+                  child: const Icon(Icons.horizontal_rule),
+                ),
+                const SizedBox(width: 20),
+                Column(
+                  children: [
+                    const Text('Уровень:'),
+                    _userLevel != null
+                        ? Text(
+                            ' $_userLevel / 20',
+                            style: const TextStyle(
+                              fontSize: 25,
+                              color: Colors.black,
+                            ),
+                          )
+                        : CircularProgressIndicator(),
+                  ],
+                ),
+                const SizedBox(width: 20),
+                FilledButton(
+                  onPressed: _incrementLevel,
+                  child: const Icon(Icons.add),
+                ),
+              ],
+            ),
             SizedBox(height: 40),
             AnimatedButton(
               onPress: _navigateToLevel,
@@ -94,31 +123,19 @@ class _MainPageState extends State<MainPage> {
             ),
             SizedBox(height: 40),
             AnimatedButton(
-              onPress: _incrementLevel,
+              onPress: () => exit(0),
               height: 70,
               width: 200,
-              text: 'Increment level',
+              text: 'EXIT GAME',
+              isReverse: true,
               selectedTextColor: Colors.black,
+              transitionType: TransitionType.LEFT_TO_RIGHT,
               textStyle: submitTextStyle,
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.black,
               borderColor: Colors.black,
               borderRadius: 50,
               borderWidth: 2,
-            ),
-            SizedBox(height: 40),
-            AnimatedButton(
-              onPress: _clearLevel,
-              height: 70,
-              width: 200,
-              text: 'Clear Level',
-
-              selectedTextColor: Colors.black,
-              textStyle: submitTextStyle,
-              backgroundColor: Colors.white,
-              borderColor: Colors.black,
-              borderRadius: 50,
-              borderWidth: 2,
-            ),
+            )
           ],
         ),
       ),
