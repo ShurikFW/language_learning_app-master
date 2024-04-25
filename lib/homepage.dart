@@ -5,6 +5,8 @@ import 'package:language_learning_app/shared_preferences.dart';
 import 'package:language_learning_app/level_screen.dart';
 import 'package:flutter_animated_button/flutter_animated_button.dart';
 
+import 'animated_button.dart';
+
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -58,19 +60,12 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle submitTextStyle = TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Обучение Эстонскому языку',
           style: TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.bold,
-          ),
+              fontFamily: 'Roboto', fontWeight: FontWeight.bold, fontSize: 24),
         ),
       ),
       body: Center(
@@ -107,35 +102,12 @@ class _MainPageState extends State<MainPage> {
               ],
             ),
             SizedBox(height: 40),
-            AnimatedButton(
-              onPress: _navigateToLevel,
-              height: 70,
-              width: 200,
+            AppAnimatedButton(
+              callback: _navigateToLevel,
               text: 'Начать',
-              isReverse: true,
-              selectedTextColor: Colors.black,
-              transitionType: TransitionType.LEFT_TO_RIGHT,
-              textStyle: submitTextStyle,
-              backgroundColor: Colors.black,
-              borderColor: Colors.black,
-              borderRadius: 50,
-              borderWidth: 2,
             ),
             SizedBox(height: 40),
-            AnimatedButton(
-              onPress: () => exit(0),
-              height: 70,
-              width: 200,
-              text: 'Выйти',
-              isReverse: true,
-              selectedTextColor: Colors.black,
-              transitionType: TransitionType.LEFT_TO_RIGHT,
-              textStyle: submitTextStyle,
-              backgroundColor: Colors.black,
-              borderColor: Colors.black,
-              borderRadius: 50,
-              borderWidth: 2,
-            )
+            AppAnimatedButton(callback: () => exit(0), text: 'Выйти')
           ],
         ),
       ),

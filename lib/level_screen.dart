@@ -51,17 +51,18 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
     if (newOptionsRequired) {
       options = _generateOptions(currentEstonianTranslation);
     }
+    int currentWordLevelIndex = (currentWordIndex % 5) + 1;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Уровень $_userLevel'),
+        title: Text('Уровень $_userLevel', style: TextStyle(fontSize: 24)),
       ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Уровень $_userLevel',
+            '$currentWordLevelIndex/5',
             style: TextStyle(fontSize: 42),
           ),
           SizedBox(height: 32),

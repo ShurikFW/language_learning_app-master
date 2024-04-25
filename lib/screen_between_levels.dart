@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:language_learning_app/animated_button.dart';
 import 'package:language_learning_app/shared_preferences.dart';
 
 import 'homepage.dart';
 import 'level_screen.dart';
-
 
 class ScreenBetweenLevels extends StatelessWidget {
   final int currentLevel;
@@ -22,7 +22,7 @@ class ScreenBetweenLevels extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Между уровнями'),
+        title: const Text('Между уровнями', style: TextStyle(fontSize: 24)),
       ),
       body: Center(
         child: Column(
@@ -31,81 +31,51 @@ class ScreenBetweenLevels extends StatelessWidget {
             if (correctAnswers >= 3)
               Text(
                 "Уровень $currentLevel завершен",
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 32),
               ),
             if (correctAnswers < 3)
               Text(
                 "Уровень $currentLevel не пройден",
-                style: TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 32),
               ),
             Text(
               'Оценка: $correctAnswers/$totalQuestions',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 20),
             if (correctAnswers < 3)
               Text(
                 'Вам нужно больше практики!',
-                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 24),
               ),
             SizedBox(height: 20),
             if (correctAnswers >= 3)
               Text(
                 'Вы переходите на следующий уровень',
-                style: TextStyle(fontSize: 20),
-              ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await incrementLevel();
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => WordQuizScreen(),
-                ));
-              },
-              child: Text(
-                'Продолжить',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
                 ),
               ),
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.white),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.symmetric(horizontal: 40, vertical: 20)),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30))),
-              ),
-            ),
+            SizedBox(height: 20),
+            AppAnimatedButton(
+                callback: () async {
+                  await incrementLevel();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => WordQuizScreen(),
+                  ));
+                },
+                text: 'Продолжить'),
             SizedBox(height: 20),
             if (correctAnswers < 3)
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push((MaterialPageRoute(
-                    builder: (context) => MainPage(),
-                  )));
-                },
-                child: Text(
-                  'Начать сначала',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                      EdgeInsets.symmetric(horizontal: 40, vertical: 20)),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                ),
-              ),
+              AppAnimatedButton(
+                  callback: () {
+                    Navigator.of(context).push((MaterialPageRoute(
+                      builder: (context) => MainPage(),
+                    )));
+                  },
+                  text: 'Начать сначала'),
           ],
         ),
       ),
