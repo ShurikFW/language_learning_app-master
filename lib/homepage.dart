@@ -30,9 +30,11 @@ class _MainPageState extends State<MainPage> {
   
 
   Future<void> _incrementLevel() async {
-  int newLevel = (_userLevel ?? 0) + 1;
-  await saveLevel(newLevel);
-  await _loadUserLevel();
+   if (_userLevel != null && _userLevel! < 20) {
+    int newLevel = (_userLevel ?? 0) + 1;
+    await saveLevel(newLevel);
+    await _loadUserLevel();
+  }
 
 }
 
