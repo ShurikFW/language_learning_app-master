@@ -26,7 +26,6 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
   }
 
   Future<void> _loadUserLevel() async {
-
     int? level = await getLevel();
 
     setState(() {
@@ -126,13 +125,18 @@ class _WordQuizScreenState extends State<WordQuizScreen> {
           }
           selectedOption = null;
           currentWordIndex++;
-          if (currentWordIndex % 5 == 0) {
-            // Проверяем, прошли ли 5 слов
-            _showBetweenLevelsScreen(); // Если да, показываем экран прохождения уровня
-          }
-          if (currentWordIndex >= wordDictionary.length - 1) {
+          int length = wordDictionary.length;
+          debugPrint('current word index became $currentWordIndex');
+          debugPrint('dictionary length $length');
+          if (currentWordIndex == wordDictionary.length) {
             // Проверяем, достигли ли конца словаря
-            _showCongratsScreen(); // Если да, показываем экран поздравления
+            debugPrint('showing congrats screen');
+            currentWordIndex = 0;
+            _showCongratsScreen();
+            // Если да, показываем экран поздравления
+          } else if (currentWordIndex % 5 == 0) {
+            debugPrint('showing between levels screen');
+            _showBetweenLevelsScreen(); // Если да, показываем экран прохождения уровня
           }
         });
       });
